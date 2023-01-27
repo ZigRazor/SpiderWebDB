@@ -11,34 +11,35 @@ namespace SPIDERWEBDB {
             
             virtual ~DatabaseInstance();
 
-            const std::string_view getName() const; 
+            virtual const std::string_view getName() const; 
 
-            void addRelations(std::shared_ptr<RelationsList> relations);
-            void addRelations(const RelationsList& relations);
-            void addRelation(std::shared_ptr<Relation> relation);
-            void addRelation(const Relation& relation);
-            void removeRelations(std::shared_ptr<RelationsList> relations);
-            void removeRelations(const RelationsList& relations);
-            void removeRelations(const std::string& relationsName);
-            void removeRelation(std::shared_ptr<Relation> relation);
-            void removeRelation(const Relation& relation);
+            virtual void addRelations(std::shared_ptr<RelationsList> relations) = 0;
+            virtual void addRelations(const RelationsList& relations) = 0;
+            virtual void addRelation(std::shared_ptr<Relation> relation) = 0;
+            virtual void addRelation(const Relation& relation) = 0;
+            virtual void removeRelations(std::shared_ptr<RelationsList> relations) = 0;
+            virtual void removeRelations(const RelationsList& relations) = 0;
+            virtual void removeRelations(const std::string& relationsName) = 0;
+            virtual void removeRelation(std::shared_ptr<Relation> relation) = 0;
+            virtual void removeRelation(const Relation& relation) = 0;
 
-            int writeToFile() const;
-            int readFromFile();
+            virtual int writeToFile() const = 0;
+            virtual int readFromFile() = 0;
 
-            std::string toString() const;
+            virtual std::string toString() const = 0;
 
             friend std::ostream& operator<<(std::ostream& os, const DatabaseInstance &dbi);
 
-            friend class DatabaseManager;
+        protected:
 
-        private:
+            RelationsMap m_relationsMap;
 
             DatabaseInstance();
             DatabaseInstance(std::string dbName);
 
+        private:            
+
             std::string m_name;
-            RelationsMap m_relationsMap;
 
     };
 }

@@ -1,4 +1,5 @@
 #include "DatabaseManager.h"
+#include "DatabaseInstanceFactory.h"
 
 namespace SPIDERWEBDB
 {
@@ -10,7 +11,7 @@ namespace SPIDERWEBDB
     {
         if (m_databaseMap.find(dbName) == m_databaseMap.end())
         {
-            m_databaseMap[dbName] = std::shared_ptr<DatabaseInstance>(new DatabaseInstance(dbName));
+            m_databaseMap[dbName] = DatabaseInstanceFactory::createDatabaseInstance(dbName, DatabaseInstanceType::IN_MEMORY);
         }
     }
 
