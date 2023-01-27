@@ -45,6 +45,13 @@ int main(){
 
     std::cout << *db2 << std::endl;
 
+    dbMng.createNewDatabaseInstance("MyDBInstanceOnDisk", DatabaseInstanceType::ON_DISK);
+    auto dbOnDisk = dbMng.getDatabaseInstance("MyDBInstanceOnDisk");
+    std::cout << dbOnDisk->getName() << std::endl;
+
+    dbOnDisk->addRelations(rl1);
+    dbOnDisk->addRelation(r3);
+
     return 0;
 
 

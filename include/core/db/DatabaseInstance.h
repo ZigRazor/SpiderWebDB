@@ -35,7 +35,7 @@ namespace SPIDERWEBDB {
             RelationsMap m_relationsMap;
 
             DatabaseInstance();
-            DatabaseInstance(std::string dbName);
+            DatabaseInstance(const std::string& dbName);
 
         private:            
 

@@ -7,11 +7,11 @@ namespace SPIDERWEBDB
     DatabaseManager::DatabaseManager() {}
     DatabaseManager::~DatabaseManager() {}
 
-    void DatabaseManager::createNewDatabaseInstance(const std::string &dbName)
+    void DatabaseManager::createNewDatabaseInstance(const std::string &dbName, DatabaseInstanceType dbType)
     {
         if (m_databaseMap.find(dbName) == m_databaseMap.end())
         {
-            m_databaseMap[dbName] = DatabaseInstanceFactory::createDatabaseInstance(dbName, DatabaseInstanceType::IN_MEMORY);
+            m_databaseMap[dbName] = DatabaseInstanceFactory::createDatabaseInstance(dbName, dbType);
         }
     }
 

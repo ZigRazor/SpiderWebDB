@@ -10,72 +10,129 @@ namespace SPIDERWEBDB
 
     OnDiskDatabaseInstance::OnDiskDatabaseInstance() : DatabaseInstance() {}
 
-    OnDiskDatabaseInstance::OnDiskDatabaseInstance(std::string dbName): DatabaseInstance(dbName){}
+    OnDiskDatabaseInstance::OnDiskDatabaseInstance(const std::string& dbName) : DatabaseInstance(dbName) {
+        //Create DB Directory if not exist
+        struct stat sb;
+        if (stat(dbName.c_str(), &sb) != 0)
+        {
+            mkdir(dbName.c_str(), 0777);
+        }
+    }
 
     OnDiskDatabaseInstance::~OnDiskDatabaseInstance() {}
 
     void OnDiskDatabaseInstance::addRelations(std::shared_ptr<RelationsList> relations)
     {
-        //TODO
+        writeRelationsToFile(*relations);
     }
 
     void OnDiskDatabaseInstance::addRelations(const RelationsList &relations)
     {
-        //TODO
+        writeRelationsToFile(relations);
     }
 
     void OnDiskDatabaseInstance::addRelation(std::shared_ptr<Relation> relation)
     {
-        //TODO
+        writeRelationToFile(*relation);
     }
 
     void OnDiskDatabaseInstance::addRelation(const Relation &relation)
     {
-        //TODO
+        writeRelationToFile(relation);
     }
 
     void OnDiskDatabaseInstance::removeRelations(std::shared_ptr<RelationsList> relations)
     {
-        //TODO
+        // TODO
     }
 
     void OnDiskDatabaseInstance::removeRelations(const RelationsList &relations)
     {
-        //TODO
+        // TODO
     }
 
     void OnDiskDatabaseInstance::removeRelations(const std::string &relationsName)
     {
-        //TODO
+        // TODO
     }
 
     void OnDiskDatabaseInstance::removeRelation(std::shared_ptr<Relation> relation)
     {
-        //TODO
+        // TODO
     }
 
     void OnDiskDatabaseInstance::removeRelation(const Relation &relation)
     {
-        //TODO
+        // TODO
     }
 
     int OnDiskDatabaseInstance::writeToFile() const
     {
-        //TODO
+        // TODO
         return 0;
     }
 
     int OnDiskDatabaseInstance::readFromFile()
     {
-        //TODO
+        // TODO
         return 0;
     }
 
     std::string OnDiskDatabaseInstance::toString() const
     {
-        //TODO
+        // TODO
         std::stringstream ss;
         return ss.str();
+    }
+
+    int OnDiskDatabaseInstance::writeRelationToFile(const Relation& relation) const
+    {
+        std::ofstream relationsFile;
+        std::string relationsName = "relations_" + std::string(relation.getName());
+        for (const auto &entry : std::filesystem::directory_iterator(getName()))
+        {
+
+            if (entry.path().filename().string() == relationsName)
+            {
+                relationsFile.open(entry.path().string(), std::ios_base::app);
+            }
+        }
+        if (!relationsFile.is_open())
+        {
+            relationsFile.open(std::string(getName()) + "/" + relationsName + ".csv");
+        }
+
+        auto nodes = relation.getNodes();
+        relationsFile << *nodes.first << "," << *nodes.second << std::endl;
+
+        relationsFile.close();
+        return 0;
+    }
+
+    int OnDiskDatabaseInstance::writeRelationsToFile(const RelationsList& relations) const
+    {
+        std::ofstream relationsFile;
+        std::string relationsName = "relations_" + std::string(relations.getRelationsName());
+        for (const auto &entry : std::filesystem::directory_iterator(getName()))
+        {
+
+            if (entry.path().filename().string() == relationsName)
+            {
+                relationsFile.open(entry.path().string(), std::ios_base::app);
+            }
+        }
+        if (!relationsFile.is_open())
+        {
+            relationsFile.open(std::string(getName()) + "/" + relationsName + ".csv");
+        }
+        for (auto relation : relations.getRelations())
+        {
+            auto nodes = relation->getNodes();
+            relationsFile << *nodes.first << "," << *nodes.second << std::endl;
+        }
+        relationsFile.close();
+
+        return 0;
     }
 
 }

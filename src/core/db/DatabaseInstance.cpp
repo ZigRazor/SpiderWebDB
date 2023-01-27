@@ -10,7 +10,7 @@ namespace SPIDERWEBDB
 
     DatabaseInstance::DatabaseInstance() {}
 
-    DatabaseInstance::DatabaseInstance(std::string dbName)
+    DatabaseInstance::DatabaseInstance(const std::string& dbName)
     {
         m_name = dbName;
     }

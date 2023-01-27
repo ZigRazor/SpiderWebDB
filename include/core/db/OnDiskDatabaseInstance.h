@@ -29,7 +29,10 @@ namespace SPIDERWEBDB {
 
         private:
 
+            int writeRelationToFile(const Relation& relation) const;
+            int writeRelationsToFile(const RelationsList& relation) const;
+
             OnDiskDatabaseInstance();
-            OnDiskDatabaseInstance(std::string dbName);
+            OnDiskDatabaseInstance(const std::string& dbName);
     };
 }

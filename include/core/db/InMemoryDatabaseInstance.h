@@ -30,6 +30,6 @@ namespace SPIDERWEBDB {
         private:
 
             InMemoryDatabaseInstance();
-            InMemoryDatabaseInstance(std::string dbName);
+            InMemoryDatabaseInstance(const std::string& dbName);
     };
 }

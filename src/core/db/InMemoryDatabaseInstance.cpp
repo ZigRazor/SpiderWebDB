@@ -10,7 +10,7 @@ namespace SPIDERWEBDB
 
     InMemoryDatabaseInstance::InMemoryDatabaseInstance() : DatabaseInstance() {}
 
-    InMemoryDatabaseInstance::InMemoryDatabaseInstance(std::string dbName): DatabaseInstance(dbName){}
+    InMemoryDatabaseInstance::InMemoryDatabaseInstance(const std::string& dbName): DatabaseInstance(dbName){}
 
     InMemoryDatabaseInstance::~InMemoryDatabaseInstance() {}
 
