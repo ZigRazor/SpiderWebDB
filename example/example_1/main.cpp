@@ -4,9 +4,13 @@
 using namespace SPIDERWEBDB;
 
 int main(){
+
+    DatabaseInstanceProperties prop1;
+    prop1.setAllowDuplicates(false);
     DatabaseManager dbMng;
     dbMng.createNewDatabaseInstance("MyDBInstance");
     auto db = dbMng.getDatabaseInstance("MyDBInstance");
+    db->setProperties(prop1);
     std::cout << db->getName() << std::endl;
 
     auto n1 = std::make_shared<Node>("node_1");
@@ -33,6 +37,11 @@ int main(){
     std::cout << *db << std::endl;
     db->addRelation(r2);
     std::cout << *db << std::endl;
+    auto r4 = r2;
+    db->addRelation(r4);
+    std::cout << *db << std::endl;
+    db->addRelation(r2);
+    std::cout << *db << std::endl;
     
     db->writeToFile();
 
@@ -45,8 +54,12 @@ int main(){
 
     std::cout << *db2 << std::endl;
 
+    DatabaseInstanceProperties prop2;
+    prop2.setAllowDuplicates(false);
+
     dbMng.createNewDatabaseInstance("MyDBInstanceOnDisk", DatabaseInstanceType::ON_DISK);
     auto dbOnDisk = dbMng.getDatabaseInstance("MyDBInstanceOnDisk");
+    dbOnDisk->setProperties(prop2);
     std::cout << dbOnDisk->getName() << std::endl;
 
     dbOnDisk->addRelations(rl1);

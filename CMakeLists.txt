@@ -28,6 +28,7 @@ file (GLOB SRC_FILES "src/*.cpp"
                      "src/core/relation/*.cpp"
                      "src/core/feature/*.cpp"
                      "src/core/db/*.cpp"
+                     "src/core/utils/*.cpp"
                     )
 
 add_library(SpiderWebDB SHARED ${SRC_FILES})
@@ -39,6 +40,7 @@ target_include_directories(SpiderWebDB PUBLIC
                           "${PROJECT_SOURCE_DIR}/include/core/relation"
                           "${PROJECT_SOURCE_DIR}/include/core/feature"
                           "${PROJECT_SOURCE_DIR}/include/core/db"
+                          "${PROJECT_SOURCE_DIR}/include/core/utils"
 						  )
 
 target_link_libraries(SpiderWebDB

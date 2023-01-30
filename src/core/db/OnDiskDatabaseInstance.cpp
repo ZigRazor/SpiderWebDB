@@ -15,11 +15,20 @@ namespace SPIDERWEBDB
         struct stat sb;
         if (stat(dbName.c_str(), &sb) != 0)
         {
+            //if is the first time I create DB I create Dir
             mkdir(dbName.c_str(), 0777);
+        }else{
+            //else I read DB Properties
+            m_properties.readProperties(dbName);
         }
     }
 
     OnDiskDatabaseInstance::~OnDiskDatabaseInstance() {}
+
+    void OnDiskDatabaseInstance::setProperties(const DatabaseInstanceProperties& properties){
+        DatabaseInstance::setProperties(properties);
+        m_properties.writeProperties(std::string(getName()));
+    }
 
     void OnDiskDatabaseInstance::addRelations(std::shared_ptr<RelationsList> relations)
     {

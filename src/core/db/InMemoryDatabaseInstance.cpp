@@ -4,6 +4,7 @@
 #include <fstream>
 #include <filesystem>
 #include <sstream>
+#include "CheckUtils.h"
 
 namespace SPIDERWEBDB
 {
@@ -16,22 +17,34 @@ namespace SPIDERWEBDB
 
     void InMemoryDatabaseInstance::addRelations(std::shared_ptr<RelationsList> relations)
     {
-        m_relationsMap.addRelations(relations);
+        for ( auto relation : relations->getRelations()){
+            addRelation(relation);
+        }
     }
 
     void InMemoryDatabaseInstance::addRelations(const RelationsList &relations)
     {
-        m_relationsMap.addRelations(relations);
+        for ( auto relation : relations.getRelations()){
+            addRelation(relation);
+        }
     }
 
     void InMemoryDatabaseInstance::addRelation(std::shared_ptr<Relation> relation)
     {
-        m_relationsMap.addRelation(relation);
+        if(m_properties.getAllowDuplicates() ||
+            !CheckUtils::existRelationNameInRelationsMap(m_relationsMap, std::string(relation->getName())) ||
+            !CheckUtils::existRelationInRelationsList(*(m_relationsMap.getRelationsMap().at(std::string(relation->getName()))), *relation)){
+            m_relationsMap.addRelation(relation);
+        }
     }
 
     void InMemoryDatabaseInstance::addRelation(const Relation &relation)
     {
-        m_relationsMap.addRelation(relation);
+        if(m_properties.getAllowDuplicates() ||
+            !CheckUtils::existRelationNameInRelationsMap(m_relationsMap, std::string(relation.getName())) ||
+            !CheckUtils::existRelationInRelationsList(*(m_relationsMap.getRelationsMap().at(std::string(relation.getName()))), relation)){
+            m_relationsMap.addRelation(relation);
+        }
     }
 
     void InMemoryDatabaseInstance::removeRelations(std::shared_ptr<RelationsList> relations)
@@ -88,6 +101,7 @@ namespace SPIDERWEBDB
             {
                 // printf("Directory created\n");
                 dbTofile();
+                m_properties.writeProperties(std::string(getName()));
             }
             else
             {
@@ -133,6 +147,7 @@ namespace SPIDERWEBDB
         if (stat(std::string(getName()).c_str(), &sb) != 0)
         {
             dbFromfile();
+            m_properties.readProperties(std::string(getName()));
         }else{ // Database does not exist
             return -1;
         }

@@ -10,6 +10,8 @@ namespace SPIDERWEBDB {
             
             virtual ~OnDiskDatabaseInstance();
 
+            void setProperties(const DatabaseInstanceProperties& properties) override;
+
             void addRelations(std::shared_ptr<RelationsList> relations) override;
             void addRelations(const RelationsList& relations) override;
             void addRelation(std::shared_ptr<Relation> relation)  ;

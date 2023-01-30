@@ -24,6 +24,10 @@ namespace SPIDERWEBDB {
 
             friend std::ostream& operator<<(std::ostream& os, const Relation &r);
 
+            bool operator==(const Relation &r) const;
+
+            bool operator!=(const Relation &r) const;
+
         private:
             std::string m_name;
             std::pair<std::shared_ptr<Node>,std::shared_ptr<Node>> m_nodes;

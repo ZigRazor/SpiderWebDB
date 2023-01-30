@@ -29,6 +29,7 @@ target_include_directories(test_exe PUBLIC
                           "${PROJECT_SOURCE_DIR}/include/core/relation"
                           "${PROJECT_SOURCE_DIR}/include/core/feature"
                           "${PROJECT_SOURCE_DIR}/include/core/db"
+                          "${PROJECT_SOURCE_DIR}/include/core/utils"
 						  )
 
 include(GoogleTest)

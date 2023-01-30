@@ -22,6 +22,10 @@ namespace SPIDERWEBDB
         return m_name;
     }
 
+    void DatabaseInstance::setProperties(const DatabaseInstanceProperties& properties){
+        m_properties = properties;
+    }
+
     std::ostream &operator<<(std::ostream &os, const DatabaseInstance &dbi)
     {
         os << dbi.toString();

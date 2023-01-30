@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "DatabaseInstanceProperties.h"
 #include "RelationsMap.h"
 
 namespace SPIDERWEBDB {
@@ -12,6 +13,8 @@ namespace SPIDERWEBDB {
             virtual ~DatabaseInstance();
 
             virtual const std::string_view getName() const; 
+
+            virtual void setProperties(const DatabaseInstanceProperties& properties);
 
             virtual void addRelations(std::shared_ptr<RelationsList> relations) = 0;
             virtual void addRelations(const RelationsList& relations) = 0;
@@ -33,6 +36,7 @@ namespace SPIDERWEBDB {
         protected:
 
             RelationsMap m_relationsMap;
+            DatabaseInstanceProperties m_properties;
 
             DatabaseInstance();
             DatabaseInstance(const std::string& dbName);

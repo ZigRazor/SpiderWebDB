@@ -1,4 +1,5 @@
 #include "RelationsMap.h"
+#include "CheckUtils.h"
 
 namespace SPIDERWEBDB {
 
@@ -11,7 +12,7 @@ namespace SPIDERWEBDB {
 
     void RelationsMap::addRelations(std::shared_ptr<RelationsList> relations){
         if(relations->getRelationsName() != ""){
-            if(m_relationsMap.find(std::string(relations->getRelationsName())) == m_relationsMap.end()){ //Relations does not exist
+            if(!CheckUtils::existRelationNameInRelationsMap(*this, std::string(relations->getRelationsName()))){ //Relations does not exist
                 m_relationsMap[std::string(relations->getRelationsName())] = relations;
             }else{
                 for( auto it : relations->getRelations()){ //Relations already exist add the elements that are not present
@@ -23,7 +24,7 @@ namespace SPIDERWEBDB {
 
     void RelationsMap::addRelations(const RelationsList& relations){
         if(relations.getRelationsName() != ""){
-            if(m_relationsMap.find(std::string(relations.getRelationsName())) == m_relationsMap.end()){ //Relations does not exist
+            if(!CheckUtils::existRelationNameInRelationsMap(*this, std::string(relations.getRelationsName()))){ //Relations does not exist
                 m_relationsMap[std::string(relations.getRelationsName())] = std::make_shared<RelationsList>(relations);
             }else{
                 for( auto it : relations.getRelations()){ //Relations already exist add the elements that are not present
@@ -35,7 +36,7 @@ namespace SPIDERWEBDB {
 
     void RelationsMap::addRelation(std::shared_ptr<Relation> relation){
         if(relation->getName() != ""){
-            if(m_relationsMap.find(std::string(relation->getName())) == m_relationsMap.end()){ //Relations does not exist
+            if(!CheckUtils::existRelationNameInRelationsMap(*this,std::string(relation->getName()))){ //Relations does not exist
                 m_relationsMap[std::string(relation->getName())] = std::make_shared<RelationsList>();
             }
             m_relationsMap.at(std::string(relation->getName()))->addRelation(relation);
@@ -44,7 +45,7 @@ namespace SPIDERWEBDB {
             
     void RelationsMap::addRelation(const Relation& relation){
         if(relation.getName() != ""){
-            if(m_relationsMap.find(std::string(relation.getName())) == m_relationsMap.end()){ //Relations does not exist
+            if(!CheckUtils::existRelationNameInRelationsMap(*this,std::string(relation.getName()))){ //Relations does not exist
                 m_relationsMap[std::string(relation.getName())] = std::make_shared<RelationsList>();
             }
             m_relationsMap.at(std::string(relation.getName()))->addRelation(relation);
@@ -52,7 +53,7 @@ namespace SPIDERWEBDB {
     }
             
     void RelationsMap::removeRelations(std::shared_ptr<RelationsList> relations){
-        if(m_relationsMap.find(std::string(relations->getRelationsName())) != m_relationsMap.end()){
+        if(CheckUtils::existRelationNameInRelationsMap(*this,std::string(relations->getRelationsName()))){
             for( auto it : relations->getRelations()){
                 m_relationsMap.at(std::string(relations->getRelationsName()))->removeRelation(it);                
             }
@@ -63,7 +64,7 @@ namespace SPIDERWEBDB {
     }
 
     void RelationsMap::removeRelations(const RelationsList& relations){
-        if(m_relationsMap.find(std::string(relations.getRelationsName())) != m_relationsMap.end()){
+        if(CheckUtils::existRelationNameInRelationsMap(*this,std::string(relations.getRelationsName()))){
             for( auto it : relations.getRelations()){
                 m_relationsMap.at(std::string(relations.getRelationsName()))->removeRelation(it);                
             }
@@ -74,13 +75,13 @@ namespace SPIDERWEBDB {
     }
 
     void RelationsMap::removeRelations(const std::string& relationsName){
-        if(m_relationsMap.find(relationsName) != m_relationsMap.end()){
+        if(CheckUtils::existRelationNameInRelationsMap(*this,relationsName)){
             m_relationsMap.erase(m_relationsMap.find(relationsName));
         }
     }
 
     void RelationsMap::removeRelation(std::shared_ptr<Relation> relation){
-        if(m_relationsMap.find(std::string(relation->getName())) != m_relationsMap.end()){
+        if(CheckUtils::existRelationNameInRelationsMap(*this,std::string(relation->getName()))){
             m_relationsMap.at(std::string(relation->getName()))->removeRelation(relation);
         }
         if(m_relationsMap.at(std::string(relation->getName()))->relationsSize() == 0){ // if no elements in relations remove relations from map
@@ -89,7 +90,7 @@ namespace SPIDERWEBDB {
     }
     
     void RelationsMap::removeRelation(const Relation& relation){
-        if(m_relationsMap.find(std::string(relation.getName())) != m_relationsMap.end()){
+        if(CheckUtils::existRelationNameInRelationsMap(*this,std::string(relation.getName()))){
             m_relationsMap.at(std::string(relation.getName()))->removeRelation(relation);
         }
         if(m_relationsMap.at(std::string(relation.getName()))->relationsSize() == 0){ // if no elements in relations remove relations from map
