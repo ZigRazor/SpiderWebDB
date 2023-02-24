@@ -34,6 +34,11 @@ namespace SPIDERWEBDB {
             int writeRelationToFile(const Relation& relation) const;
             int writeRelationsToFile(const RelationsList& relation) const;
 
+            int openRelationFile(const std::string &relationsName, std::fstream& relationFile) const;
+            int closeRelationFile(std::fstream& relationFile) const;
+
+            std::shared_ptr<RelationsList> readRelationsFromFile(const std::string &relationsName) const;
+
             OnDiskDatabaseInstance();
             OnDiskDatabaseInstance(const std::string& dbName);
     };

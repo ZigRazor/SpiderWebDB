@@ -20,5 +20,15 @@ namespace SPIDERWEBDB {
         os << node.toString();
         return os;
     }
+
+    bool Node::operator==(const Node &n) const
+    {
+        return this->m_id == n.m_id;
+    }
+
+    bool Node::operator!=(const Node &n) const
+    {
+        return !(*this == n);
+    }
 }
 

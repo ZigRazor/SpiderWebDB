@@ -1,4 +1,6 @@
 #include "Relation.h"
+#include <cstdio>
+#include "UtilitySharedPtr.hpp"
 
 namespace SPIDERWEBDB
 {
@@ -18,6 +20,13 @@ namespace SPIDERWEBDB
         m_nodes.second = node_2;
     }
 
+    Relation::Relation(const std::string &relationName, std::string& strDBEntry){
+        m_name = relationName;
+        m_nodes.first = std::make_shared<Node>(strDBEntry.substr(0, strDBEntry.find(",")));
+        strDBEntry.erase(0, (strDBEntry.find(",") + 1));
+        m_nodes.second = std::make_shared<Node>(strDBEntry);
+    }
+
     Relation::~Relation() {}
 
     const std::string_view Relation::getName() const
@@ -35,9 +44,14 @@ namespace SPIDERWEBDB
         return m_nodes.first->toString() + " " + m_name + " " + m_nodes.second->toString();
     }
 
+    std::string Relation::toStringDBEntry() const
+    {
+        return m_nodes.first->toString() + "," + m_nodes.second->toString();
+    }
+
     bool Relation::operator==(const Relation &r) const
     {
-        return this->m_name == r.m_name && this->m_nodes == r.m_nodes;
+        return this->m_name == r.m_name && compare_shared_ptr(this->m_nodes.first, r.m_nodes.first) && compare_shared_ptr(this->m_nodes.second, r.m_nodes.second);
     }
 
     bool Relation::operator!=(const Relation &r) const

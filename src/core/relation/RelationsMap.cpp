@@ -53,14 +53,7 @@ namespace SPIDERWEBDB {
     }
             
     void RelationsMap::removeRelations(std::shared_ptr<RelationsList> relations){
-        if(CheckUtils::existRelationNameInRelationsMap(*this,std::string(relations->getRelationsName()))){
-            for( auto it : relations->getRelations()){
-                m_relationsMap.at(std::string(relations->getRelationsName()))->removeRelation(it);                
-            }
-            if(m_relationsMap.at(std::string(relations->getRelationsName()))->relationsSize() == 0){ // if no elements in relations remove relations from map
-                m_relationsMap.erase(m_relationsMap.find(std::string(relations->getRelationsName())));
-            }
-        }
+        removeRelations(*relations);
     }
 
     void RelationsMap::removeRelations(const RelationsList& relations){
@@ -81,12 +74,7 @@ namespace SPIDERWEBDB {
     }
 
     void RelationsMap::removeRelation(std::shared_ptr<Relation> relation){
-        if(CheckUtils::existRelationNameInRelationsMap(*this,std::string(relation->getName()))){
-            m_relationsMap.at(std::string(relation->getName()))->removeRelation(relation);
-        }
-        if(m_relationsMap.at(std::string(relation->getName()))->relationsSize() == 0){ // if no elements in relations remove relations from map
-            m_relationsMap.erase(m_relationsMap.find(std::string(relation->getName())));
-        }
+        removeRelation(*relation);
     }
     
     void RelationsMap::removeRelation(const Relation& relation){

@@ -65,6 +65,9 @@ int main(){
     dbOnDisk->addRelations(rl1);
     dbOnDisk->addRelation(r3);
 
+    dbOnDisk->removeRelation(r3);
+    dbOnDisk->removeRelations(rl1);
+
     return 0;
 
 

@@ -18,6 +18,10 @@ namespace SPIDERWEBDB {
 
             friend std::ostream& operator<<(std::ostream& os, const Node &node);
 
+            bool operator==(const Node &n) const;
+
+            bool operator!=(const Node &n) const;
+
         private:
             std::string m_id;
 

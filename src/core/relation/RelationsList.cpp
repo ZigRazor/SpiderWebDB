@@ -34,14 +34,12 @@ namespace SPIDERWEBDB {
     }
 
     void RelationsList::removeRelation(std::shared_ptr<Relation> relation){
-        if(m_relations.find(relation) != m_relations.end()){
-            m_relations.erase(m_relations.find(relation));
-        }
+        removeRelation(*relation);
     }
 
     void RelationsList::removeRelation(const Relation& relation){
         for(auto it : m_relations){
-            if( it->getNodes() == relation.getNodes()){
+            if( *it == relation){
                 m_relations.erase(it);
                 break;
             }
