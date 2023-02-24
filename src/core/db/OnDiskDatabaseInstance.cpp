@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "FileManipulation.h"
+#include "Constants.hpp"
 
 namespace SPIDERWEBDB
 {
@@ -71,8 +72,8 @@ namespace SPIDERWEBDB
 
     void OnDiskDatabaseInstance::removeRelations(const std::string &relationsName)
     {
-        std::string relationsFileName = "relations_" + std::string(relationsName);
-        FileManipulation::removeFile(std::string(getName()) + "/" + relationsFileName + ".csv");
+        std::string relationsFileName = std::string(CONSTANTS::RELATIONS_PREFIX_STR) + std::string(relationsName);
+        FileManipulation::removeFile(std::string(getName()) + CONSTANTS::SLASH_CHAR + relationsFileName + std::string(CONSTANTS::CSVEXT_STR));
     }
 
     void OnDiskDatabaseInstance::removeRelation(std::shared_ptr<Relation> relation)
@@ -89,8 +90,8 @@ namespace SPIDERWEBDB
             writeRelationsToFile(*relationsList);
         }else{
             //No element in list, remove file
-            std::string relationsFileName = "relations_" + std::string(relation.getName());
-            FileManipulation::removeFile(std::string(getName()) + "/" + relationsFileName + ".csv");
+            std::string relationsFileName = std::string(CONSTANTS::RELATIONS_PREFIX_STR) + std::string(relation.getName());
+            FileManipulation::removeFile(std::string(getName()) + CONSTANTS::SLASH_CHAR + relationsFileName + std::string(CONSTANTS::CSVEXT_STR));
         }
 
     }
@@ -117,7 +118,7 @@ namespace SPIDERWEBDB
     int OnDiskDatabaseInstance::writeRelationToFile(const Relation &relation) const
     {
         std::ofstream relationsFile;
-        std::string relationsFileName = "relations_" + std::string(relation.getName());
+        std::string relationsFileName = std::string(CONSTANTS::RELATIONS_PREFIX_STR) + std::string(relation.getName());
         for (const auto &entry : std::filesystem::directory_iterator(getName()))
         {
 
@@ -128,11 +129,11 @@ namespace SPIDERWEBDB
         }
         if (!relationsFile.is_open())
         {
-            relationsFile.open(std::string(getName()) + "/" + relationsFileName + ".csv");
+            relationsFile.open(std::string(getName()) + CONSTANTS::SLASH_CHAR + relationsFileName + std::string(CONSTANTS::CSVEXT_STR));
         }
 
         auto nodes = relation.getNodes();
-        relationsFile << *nodes.first << "," << *nodes.second << std::endl;
+        relationsFile << *nodes.first << CONSTANTS::SLASH_CHAR << *nodes.second << std::endl;
 
         relationsFile.close();
         return 0;
@@ -141,7 +142,7 @@ namespace SPIDERWEBDB
     int OnDiskDatabaseInstance::writeRelationsToFile(const RelationsList &relations) const
     {
         std::ofstream relationsFile;
-        std::string relationsFileName = "relations_" + std::string(relations.getRelationsName());
+        std::string relationsFileName = std::string(CONSTANTS::RELATIONS_PREFIX_STR) + std::string(relations.getRelationsName());
         for (const auto &entry : std::filesystem::directory_iterator(getName()))
         {
 
@@ -152,12 +153,12 @@ namespace SPIDERWEBDB
         }
         if (!relationsFile.is_open())
         {
-            relationsFile.open(std::string(getName()) + "/" + relationsFileName + ".csv");
+            relationsFile.open(std::string(getName()) + CONSTANTS::SLASH_CHAR + relationsFileName + std::string(CONSTANTS::CSVEXT_STR));
         }
         for (auto relation : relations.getRelations())
         {
             auto nodes = relation->getNodes();
-            relationsFile << *nodes.first << "," << *nodes.second << std::endl;
+            relationsFile << *nodes.first << CONSTANTS::COMMA_CHAR << *nodes.second << std::endl;
         }
         relationsFile.close();
 
@@ -166,7 +167,7 @@ namespace SPIDERWEBDB
 
     int OnDiskDatabaseInstance::openRelationFile(const std::string &relationsName, std::fstream &relationFile) const
     {
-        std::string relationsFileName = "relations_" + std::string(relationsName);
+        std::string relationsFileName = std::string(CONSTANTS::RELATIONS_PREFIX_STR) + std::string(relationsName);
         for (const auto &entry : std::filesystem::directory_iterator(getName()))
         {
 
@@ -177,7 +178,7 @@ namespace SPIDERWEBDB
         }
         if (!relationFile.is_open())
         {
-            relationFile.open(std::string(getName()) + "/" + relationsFileName + ".csv");
+            relationFile.open(std::string(getName()) + CONSTANTS::SLASH_CHAR + relationsFileName + std::string(CONSTANTS::CSVEXT_STR));
         }
         return 0;
     }

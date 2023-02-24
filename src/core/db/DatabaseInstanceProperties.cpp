@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <fstream>
 #include <filesystem>
+#include "Constants.hpp"
 
 namespace SPIDERWEBDB
 {
@@ -26,19 +27,19 @@ namespace SPIDERWEBDB
         struct stat sb;
         if (stat(propertiesPath.c_str(), &sb) == 0)
         {
-            std::ifstream propertiesFile(propertiesPath + "/" + "properties.swdb");
+            std::ifstream propertiesFile(propertiesPath + CONSTANTS::SLASH_CHAR + std::string(CONSTANTS::PROPERTIES_FILENAME_STR));
             std::string line;
             while (std::getline(propertiesFile, line))
             {
                 std::stringstream str(line);
                 std::string propertiesName;
                 std::string propertiesValue;
-                std::getline(str, propertiesName, ',');
-                std::getline(str, propertiesValue, ',');
+                std::getline(str, propertiesName, CONSTANTS::COMMA_CHAR);
+                std::getline(str, propertiesValue, CONSTANTS::COMMA_CHAR);
 
                 if (propertiesName == ALLOW_DUPLICATES)
                 {
-                    m_allowDuplicates = (propertiesValue == "true");
+                    m_allowDuplicates = (propertiesValue == CONSTANTS::TRUE_STR);
                 }
                 else
                 {
@@ -58,8 +59,8 @@ namespace SPIDERWEBDB
         struct stat sb;
         if (stat(propertiesPath.c_str(), &sb) == 0)
         {
-            std::ofstream propertiesFile(propertiesPath + "/" + "properties.swdb");
-            propertiesFile << ALLOW_DUPLICATES << "," << (m_allowDuplicates ? "true" : "false") << std::endl;
+            std::ofstream propertiesFile(propertiesPath + CONSTANTS::SLASH_CHAR + std::string(CONSTANTS::PROPERTIES_FILENAME_STR));
+            propertiesFile << ALLOW_DUPLICATES << CONSTANTS::COMMA_CHAR << (m_allowDuplicates ? CONSTANTS::TRUE_STR : CONSTANTS::FALSE_STR) << std::endl;
 
             propertiesFile.close();
             return 0;

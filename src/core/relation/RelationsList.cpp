@@ -1,5 +1,6 @@
 #include "RelationsList.h"
 #include <iostream>
+#include "Constants.hpp"
 
 namespace SPIDERWEBDB {
 
@@ -10,7 +11,7 @@ namespace SPIDERWEBDB {
         if(!m_relations.empty()){
             return (*m_relations.begin())->getName();
         }
-        return "";
+        return CONSTANTS::EMPTY_STR;
     }
 
     const std::unordered_set<std::shared_ptr<Relation>>& RelationsList::getRelations() const {

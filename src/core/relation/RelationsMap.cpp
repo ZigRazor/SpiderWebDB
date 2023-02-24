@@ -1,5 +1,6 @@
 #include "RelationsMap.h"
 #include "CheckUtils.h"
+#include "Constants.hpp"
 
 namespace SPIDERWEBDB {
 
@@ -11,7 +12,7 @@ namespace SPIDERWEBDB {
     }
 
     void RelationsMap::addRelations(std::shared_ptr<RelationsList> relations){
-        if(relations->getRelationsName() != ""){
+        if(relations->getRelationsName() != CONSTANTS::EMPTY_STR){
             if(!CheckUtils::existRelationNameInRelationsMap(*this, std::string(relations->getRelationsName()))){ //Relations does not exist
                 m_relationsMap[std::string(relations->getRelationsName())] = relations;
             }else{
@@ -23,7 +24,7 @@ namespace SPIDERWEBDB {
     }
 
     void RelationsMap::addRelations(const RelationsList& relations){
-        if(relations.getRelationsName() != ""){
+        if(relations.getRelationsName() != CONSTANTS::EMPTY_STR){
             if(!CheckUtils::existRelationNameInRelationsMap(*this, std::string(relations.getRelationsName()))){ //Relations does not exist
                 m_relationsMap[std::string(relations.getRelationsName())] = std::make_shared<RelationsList>(relations);
             }else{
@@ -35,7 +36,7 @@ namespace SPIDERWEBDB {
     }
 
     void RelationsMap::addRelation(std::shared_ptr<Relation> relation){
-        if(relation->getName() != ""){
+        if(relation->getName() != CONSTANTS::EMPTY_STR){
             if(!CheckUtils::existRelationNameInRelationsMap(*this,std::string(relation->getName()))){ //Relations does not exist
                 m_relationsMap[std::string(relation->getName())] = std::make_shared<RelationsList>();
             }
@@ -44,7 +45,7 @@ namespace SPIDERWEBDB {
     }
             
     void RelationsMap::addRelation(const Relation& relation){
-        if(relation.getName() != ""){
+        if(relation.getName() != CONSTANTS::EMPTY_STR){
             if(!CheckUtils::existRelationNameInRelationsMap(*this,std::string(relation.getName()))){ //Relations does not exist
                 m_relationsMap[std::string(relation.getName())] = std::make_shared<RelationsList>();
             }

@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <sstream>
 #include "CheckUtils.h"
+#include "Constants.hpp"
 
 namespace SPIDERWEBDB
 {
@@ -79,11 +80,11 @@ namespace SPIDERWEBDB
         {
             for (auto relations : m_relationsMap.getRelationsMap())
             {
-                std::ofstream relationsFile(std::string(getName()) + "/" + "relations_" + std::string(relations.second->getRelationsName()) + ".csv");
+                std::ofstream relationsFile(std::string(getName()) + CONSTANTS::SLASH_CHAR + std::string(CONSTANTS::RELATIONS_PREFIX_STR) + std::string(relations.second->getRelationsName()) + std::string(CONSTANTS::CSVEXT_STR));
                 for (auto relation : relations.second->getRelations())
                 {
                     auto nodes = relation->getNodes();
-                    relationsFile << *nodes.first << "," << *nodes.second << std::endl;
+                    relationsFile << *nodes.first << CONSTANTS::COMMA_CHAR << *nodes.second << std::endl;
                 }
                 relationsFile.close();
             }
@@ -123,7 +124,7 @@ namespace SPIDERWEBDB
         {
             for (const auto &entry : std::filesystem::directory_iterator(getName()))
             {
-                std::string relationsSubStr = "relations_";
+                std::string relationsSubStr = std::string(CONSTANTS::RELATIONS_PREFIX_STR);
                 if (entry.path().filename().string().rfind(relationsSubStr, 0) == 0)
                 {
                     std::string relationsName = entry.path().filename().string().erase(0,relationsSubStr.length());

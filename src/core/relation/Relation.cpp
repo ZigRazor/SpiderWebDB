@@ -1,6 +1,7 @@
 #include "Relation.h"
 #include <cstdio>
 #include "UtilitySharedPtr.hpp"
+#include "Constants.hpp"
 
 namespace SPIDERWEBDB
 {
@@ -22,8 +23,8 @@ namespace SPIDERWEBDB
 
     Relation::Relation(const std::string &relationName, std::string& strDBEntry){
         m_name = relationName;
-        m_nodes.first = std::make_shared<Node>(strDBEntry.substr(0, strDBEntry.find(",")));
-        strDBEntry.erase(0, (strDBEntry.find(",") + 1));
+        m_nodes.first = std::make_shared<Node>(strDBEntry.substr(0, strDBEntry.find(CONSTANTS::COMMA_CHAR)));
+        strDBEntry.erase(0, (strDBEntry.find(CONSTANTS::COMMA_CHAR) + 1));
         m_nodes.second = std::make_shared<Node>(strDBEntry);
     }
 
@@ -41,12 +42,12 @@ namespace SPIDERWEBDB
 
     std::string Relation::toString() const
     {
-        return m_nodes.first->toString() + " " + m_name + " " + m_nodes.second->toString();
+        return m_nodes.first->toString() + CONSTANTS::BLANK_CHAR + m_name + CONSTANTS::BLANK_CHAR + m_nodes.second->toString();
     }
 
     std::string Relation::toStringDBEntry() const
     {
-        return m_nodes.first->toString() + "," + m_nodes.second->toString();
+        return m_nodes.first->toString() + CONSTANTS::COMMA_CHAR + m_nodes.second->toString();
     }
 
     bool Relation::operator==(const Relation &r) const
